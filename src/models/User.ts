@@ -3,8 +3,9 @@ import {
     PrimaryGeneratedColumn,
     BaseEntity,
     Column, 
-    CreateDateColumn
+    CreateDateColumn, ManyToMany, JoinTable
 } from 'typeorm';
+import Role from './Role';
 
 @Entity({name: "users"})
 class User extends BaseEntity{
@@ -22,6 +23,14 @@ class User extends BaseEntity{
 
     @CreateDateColumn()
     created_at: Date;
+
+    @ManyToMany(() => Role)
+    @JoinTable({
+        name: "users_roles",
+        inverseJoinColumns: [{name: 'role_id'}],
+        joinColumns: [{ name:'user_id'}],
+    })
+    roles: Role[];
 }
 
 export default User;
